@@ -1,4 +1,5 @@
 import { Button } from '@cloudflare/kumo/components/button';
+import LiturgicalCalendar from '../components/LiturgicalCalendar';
 import { useLanguage, type Language } from '../contexts/LanguageContext';
 import { copy, parishEvents, type ParishEvent } from '../data/parishContent';
 
@@ -44,6 +45,9 @@ function ParishEvents() {
           <h1>{t.eventsTitle}</h1>
           <p>{t.eventsBody}</p>
         </header>
+        <LiturgicalCalendar />
+        <section className="parish-events-section" aria-labelledby="parish-events-title">
+          <h2 id="parish-events-title">{t.parishEventsTitle}</h2>
         {upcoming.length > 0 ? (
           <ol className="event-list">
             {upcoming.map((event) => (
@@ -66,6 +70,7 @@ function ParishEvents() {
             <p>{t.eventsHelp}</p>
           </section>
         )}
+        </section>
       </div>
     </main>
   );

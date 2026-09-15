@@ -12,7 +12,7 @@ describe('public routes', () => {
     render(<App />);
 
     const navigation = screen.getByRole('navigation', { name: 'Main navigation' });
-    await user.click(within(navigation).getByRole('link', { name: 'Events' }));
+    await user.click(within(navigation).getByRole('link', { name: copy.en.nav[1] }));
     expect(window.location.pathname).toBe('/events');
     expect(await screen.findByRole('heading', { level: 1, name: copy.en.eventsTitle })).toBeInTheDocument();
 

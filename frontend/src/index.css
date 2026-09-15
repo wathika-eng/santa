@@ -110,6 +110,25 @@ h1, h2, h3 { text-wrap: balance; }
 .daily-readings-full { max-width: 780px; }
 .daily-readings-full section p { font-size: 1.04rem; }
 .event-list, .directory-list, .leader-list, .record-list, .giving-list { list-style: none; padding: 0; margin: 0; }
+.liturgical-calendar { margin-bottom: 50px; padding: 25px 0 34px; border-block: 1px solid var(--color-kumo-line); }
+.calendar-heading { display: flex; align-items: end; justify-content: space-between; gap: 30px; }
+.calendar-heading h2, .parish-events-section > h2 { margin-bottom: 7px; font: 600 1.75rem/1.2 'Alegreya',Georgia,serif; }
+.calendar-heading p { max-width: 600px; margin: 0; color: var(--color-kumo-subtle); line-height: 1.55; }
+.calendar-date-control { display: grid; gap: 6px; min-width: 190px; color: var(--color-kumo-subtle); font-size: .82rem; font-weight: 650; }
+.calendar-date-control input { min-height: 44px; padding: 8px 10px; border: 1px solid #9faaa3; border-radius: 5px; background: white; color: var(--color-kumo-strong); font: inherit; font-size: 1rem; }
+.calendar-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 17px; }
+.calendar-controls button { min-height: 44px; padding: 8px 14px; border: 1px solid #a8afa9; border-radius: 5px; background: white; color: #542b35; font: inherit; font-weight: 650; cursor: pointer; }
+.calendar-controls button:hover { background: #f1ece4; }
+.calendar-status { min-height: 90px; padding: 24px 0; color: var(--color-kumo-subtle); }
+.liturgical-days { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); padding: 0; margin: 0 0 18px; border: 1px solid var(--color-kumo-line); list-style: none; }
+.liturgical-days li { min-width: 0; padding: 14px 12px 15px; border-right: 1px solid var(--color-kumo-line); }
+.liturgical-days li:last-child { border-right: 0; }
+.liturgical-days li.is-today { background: #f3e9d8; box-shadow: inset 0 3px #762f3e; }
+.liturgical-days time { display: block; margin-bottom: 9px; color: #702d3b; font-size: .8rem; font-weight: 700; text-transform: uppercase; }
+.liturgical-days h3 { margin-bottom: 13px; font: 600 1.02rem/1.28 'Alegreya',Georgia,serif; }
+.liturgical-days a, .calendar-source { display: inline-flex; align-items: center; gap: 4px; color: #702d3b; font-size: .82rem; font-weight: 650; text-underline-offset: 3px; }
+.calendar-copyright { max-width: 760px; margin: 15px 0 0; color: var(--color-kumo-subtle); font-size: .72rem; line-height: 1.45; }
+.parish-events-section > h2 { margin-bottom: 18px; }
 .event-list, .directory-list, .leader-list { border-top: 1px solid var(--color-kumo-line, #d8ddda); }
 .event-entry, .directory-list li, .leader-list li { padding: 22px 0; border-bottom: 1px solid var(--color-kumo-line, #d8ddda); }
 .event-entry h2, .directory-list h2, .leader-list h2 { font: 600 1.45rem/1.28 'Alegreya',Georgia,serif; margin-bottom: 8px; }
@@ -163,6 +182,8 @@ h1, h2, h3 { text-wrap: balance; }
   .nav-links ul { display: grid; }
   .nav-links a { width: 100%; }
   .menu-button { display: inline-flex !important; }
+  .liturgical-days { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .liturgical-days li { border-bottom: 1px solid var(--color-kumo-line); }
 }
 @media (max-width: 650px) {
   .container { width: min(100% - 2rem, 1120px); }
@@ -174,6 +195,10 @@ h1, h2, h3 { text-wrap: balance; }
   .brand-text strong { font-size: 1.06rem; }
   .brand-text small { font-size: .74rem; }
   .giving-layout, .visit-layout, .notice-section, .reading-feature-grid { grid-template-columns: 1fr; gap: 23px; }
+  .calendar-heading { display: grid; gap: 18px; }
+  .calendar-date-control { width: 100%; }
+  .liturgical-days { grid-template-columns: 1fr; }
+  .liturgical-days li { border-right: 0; }
   .parish-intro { height: 290px; }
   .parish-intro > img { object-position: 53% center; }
   .parish-intro-caption { padding: 80px 0 20px; }

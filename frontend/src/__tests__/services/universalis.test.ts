@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { kenyaDate, parseDailyMass } from '../../services/universalis';
+import { addCalendarDays, isoDate, kenyaDate, liturgicalWeekDates, parseDailyMass } from '../../services/universalis';
 
 const sample = {
   number: 20260914,
@@ -16,8 +16,17 @@ describe('Universalis Kenya Mass feed', () => {
     expect(kenyaDate(new Date('2026-09-13T22:30:00Z'))).toBe('20260914');
   });
 
+  it('builds a seven-day calendar across month and year boundaries', () => {
+    expect(addCalendarDays('20261229', 4)).toBe('20270102');
+    expect(isoDate('20270102')).toBe('2027-01-02');
+    expect(liturgicalWeekDates('20261229')).toEqual([
+      '20261229', '20261230', '20261231', '20270101', '20270102', '20270103', '20270104',
+    ]);
+  });
+
   it('decodes feed HTML into plain text and retains the full source notice', () => {
     const mass = parseDailyMass(sample, '20260914');
+    expect(mass.calendarDate).toBe('20260914');
     expect(mass.day).toBe('The Exaltation of the Holy Cross - Feast');
     expect(mass.readings.map((reading) => reading.label)).toEqual(['First reading', 'Psalm', 'Gospel']);
     expect(mass.readings[0].source).toBe('Numbers 21:4‐9');

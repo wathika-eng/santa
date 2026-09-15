@@ -11,6 +11,7 @@ vi.mock('../../services/universalis', async (importOriginal) => {
 });
 
 const mass = {
+  calendarDate: '20260914',
   date: 'Monday 14 September 2026',
   day: 'The Exaltation of the Holy Cross',
   readings: [

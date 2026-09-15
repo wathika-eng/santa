@@ -9,6 +9,7 @@ export type Reading = {
 };
 
 export type DailyMass = {
+  calendarDate: string;
   date: string;
   day: string;
   readings: Reading[];
@@ -51,6 +52,22 @@ export function kenyaDate(now = new Date()): string {
   return `${part('year')}${part('month')}${part('day')}`;
 }
 
+export function isoDate(date: string): string {
+  return `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}`;
+}
+
+export function addCalendarDays(date: string, days: number): string {
+  const year = Number(date.slice(0, 4));
+  const month = Number(date.slice(4, 6));
+  const day = Number(date.slice(6, 8));
+  const shifted = new Date(Date.UTC(year, month - 1, day + days));
+  return [shifted.getUTCFullYear(), String(shifted.getUTCMonth() + 1).padStart(2, '0'), String(shifted.getUTCDate()).padStart(2, '0')].join('');
+}
+
+export function liturgicalWeekDates(startDate: string): string[] {
+  return Array.from({ length: 7 }, (_, index) => addCalendarDays(startDate, index));
+}
+
 export function massPageUrl(date: string): string {
   return `${UNIVERSALIS_CALENDAR_URL}/${date}/mass.htm`;
 }
@@ -79,6 +96,7 @@ export function parseDailyMass(value: unknown, requestedDate: string): DailyMass
   if (!readings.some((reading) => reading.label === 'Gospel')) throw new Error('Universalis Gospel is missing');
 
   return {
+    calendarDate: requestedDate,
     date: typeof feed.date === 'string' ? feed.date : '',
     day: textFromHtml(feed.day),
     readings,
@@ -127,8 +145,8 @@ export function loadDailyMass(date: string, signal?: AbortSignal): Promise<Daily
   const request = cached
     ? Promise.resolve(cached)
     : pendingLoads.get(date) ?? requestDailyMass(date).then((mass) => {
-      dailyCache.clear();
       dailyCache.set(date, mass);
+      if (dailyCache.size > 35) dailyCache.delete(dailyCache.keys().next().value ?? date);
       return mass;
     }).finally(() => pendingLoads.delete(date));
 
