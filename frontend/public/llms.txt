@@ -1,0 +1,15 @@
+# Sts. Peter & Paul Catholic Parish, Kiambu
+
+Official parish information in English and Kiswahili.
+
+## Main pages
+
+- /readings: Daily Catholic Mass readings for the Kenya calendar, sourced from Universalis.
+- /events: Parish events and reminders.
+- /notices: General, wedding, and bereavement announcements.
+- /jumuia: Small Christian Communities and their leadership.
+- /leadership: Parish clergy and lay leadership.
+- /giving: Tithe, sadaka, donations, and contributions. Payment details are only shown after parish verification.
+- /visit: Postal and contact information for the parish in Kiambu, Kenya.
+
+The parish Facebook page is https://web.facebook.com/profile.php?id=100080760517262.

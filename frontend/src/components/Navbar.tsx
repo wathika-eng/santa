@@ -1,84 +1,53 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Church } from 'lucide-react';
+import { Link, NavLink } from 'react-router-dom';
+import { Button } from '@cloudflare/kumo/components/button';
+import { Cross, Menu, X } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { copy } from '../data/parishContent';
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-
-  const navigation = [
-    { name: 'Inicial', path: '/' },
-    { name: 'Eventos', path: '/events' },
-    { name: 'Horários', path: '/schedule' },
-    { name: 'Notícias', path: '/news' },
-    { name: 'Igreja', path: '/churchsr' },
-    { name: 'Santa Rita', path: '/santa-rita' },
-    { name: 'Dízimo', path: '/tithe' },
+function Navbar() {
+  const { language, setLanguage } = useLanguage();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const t = copy[language];
+  const links = [
+    { path: '/', label: t.nav[0] },
+    { path: '/readings', label: t.readingsNav },
+    { path: '/notices', label: t.nav[2] },
+    { path: '/events', label: t.nav[1] },
+    { path: '/jumuia', label: t.nav[3] },
+    { path: '/leadership', label: t.nav[4] },
+    { path: '/giving', label: t.nav[5] },
+    { path: '/visit', label: t.locationLabel },
   ];
 
   return (
-    <nav className="bg-white shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <Link to="/" className="flex items-center">
-              <Church className="h-12 w-12 text-blue-700" />
-              <span className="ml-2 text-xl font-semibold text-gray-900">Igreja Santa Rita de Cássia</span>
-            </Link>
-          </div>
-
-          {/* Desktop menu */}
-          <div className="hidden md:flex md:items-center md:space-x-4">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
-                  location.pathname === item.path
-                    ? 'bg-blue-700 text-white'
-                    : 'text-gray-700 hover:bg-blue-50'
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
-            >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
+    <>
+      <a className="skip-link" href="#main">{t.skip}</a>
+      <header className="site-header">
+        <div className="topline">
+          <div className="container topline-inner">
+            <span>{t.archdiocese}</span>
+            <div className="language-toggle" role="group" aria-label={language === 'sw' ? 'Chagua lugha' : 'Choose language'}>
+              <Button type="button" variant={language === 'en' ? 'secondary' : 'ghost'} size="sm" lang="en" aria-pressed={language === 'en'} onClick={() => setLanguage('en')}>English</Button>
+              <Button type="button" variant={language === 'sw' ? 'secondary' : 'ghost'} size="sm" lang="sw" aria-pressed={language === 'sw'} onClick={() => setLanguage('sw')}>Kiswahili</Button>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Mobile menu */}
-      {isOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`block px-3 py-2 rounded-md text-base font-medium ${
-                  location.pathname === item.path
-                    ? 'bg-blue-700 text-white'
-                    : 'text-gray-700 hover:bg-blue-50'
-                }`}
-                onClick={() => setIsOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
+        <div className="container nav-wrap">
+          <Link className="brand" to="/" onClick={() => setMenuOpen(false)}>
+            <span className="brand-icon" aria-hidden="true"><Cross size={25} strokeWidth={1.4} /></span>
+            <span className="brand-text"><strong>{t.parish}</strong><small>{t.parishSuffix}</small></span>
+          </Link>
+          <nav className={menuOpen ? 'nav-links open' : 'nav-links'} id="main-navigation" aria-label={language === 'sw' ? 'Menyu kuu' : 'Main navigation'}>
+            <ul>{links.map(({ path, label }) => <li key={path}><NavLink to={path} end onClick={() => setMenuOpen(false)}>{label}</NavLink></li>)}</ul>
+          </nav>
+          <Button className="menu-button" type="button" variant="outline" shape="square" aria-expanded={menuOpen} aria-controls="main-navigation" aria-label={menuOpen ? t.closeMenu : t.menu} onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <X size={21} /> : <Menu size={21} />}<span>{language === 'sw' ? 'Menyu' : 'Menu'}</span>
+          </Button>
         </div>
-      )}
-    </nav>
+      </header>
+    </>
   );
-};
+}
 
 export default Navbar;

@@ -1,59 +1,44 @@
-import { Mail, Phone, MapPin, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowUpRight } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { copy } from '../data/parishContent';
 
-const Footer = () => {
+const directoryUrl = 'https://archdioceseofnairobi.org/?page_id=4674';
+function Footer() {
+  const { language } = useLanguage();
+  const t = copy[language];
+  const links = [
+    { path: '/', label: t.nav[0] },
+    { path: '/readings', label: t.readingsNav },
+    { path: '/notices', label: t.nav[2] },
+    { path: '/events', label: t.nav[1] },
+    { path: '/jumuia', label: t.nav[3] },
+    { path: '/leadership', label: t.nav[4] },
+    { path: '/giving', label: t.nav[5] },
+    { path: '/visit', label: t.locationLabel },
+  ];
+
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Fale conosco</h3>
-            <div className="space-y-3">
-              <div className="flex items-center">
-                <Phone className="h-5 w-5 mr-2" />
-                <span>(35) 3441-0000</span>
-              </div>
-              <div className="flex items-center">
-                <Mail className="h-5 w-5 mr-2" />
-                <a href="mailto:contact@santarita.church">contact@santarita.br</a>
-              </div>
-              <div className="flex items-center">
-                <MapPin className="h-5 w-5 mr-2" />
-                <span>Rua Santa Rita, 81, Ouro Fino, Minas Gerais, 37570-000</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Horário da Missa</h3>
-            <ul className="space-y-2">
-              <li>Domingo: 10:00 h</li>
-              <li>Dia 22 de cada mês: 19:00 h</li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Siga-nos</h3>
-            <div className="flex space-x-4">
-              <a href="https://www.facebook.com/vivaourofino/videos/%EF%B8%8F-igreja-de-santa-rita-de-c%C3%A1ssia-ouro-fino-mg-santa-rita-advogada-dos-imposs%C3%ADvei/186636910000005/" target='_blank' className="hover:text-blue-500">Facebook</a>
-              <a href="https://www.instagram.com/explore/locations/71564550/paroquia-de-santo-antonio/" target='_blank' className="hover:text-blue-500">Instagram</a>
-              <a href="https://www.youtube.com/channel/UC1X_WleWvbN2O8EryCqXaug" target='_blank' className="hover:text-blue-500">YouTube</a>
-            </div>
-          </div>
+    <footer className="site-footer">
+      <div className="container footer-grid">
+        <div>
+          <strong className="footer-brand">{t.parish}<br />{t.parishSuffix}</strong>
+          <p>{t.footerLead}</p>
         </div>
-        <div className="mt-8 pt-8 border-t border-gray-700 text-center">
-  <p>
-    {new Date().getFullYear()} &copy; Igreja Santa Rita de Cássia.<br />
-    Todos os direitos reservados.<br />
-    <span className="inline-flex items-center justify-center gap-1">
-      Desenvolvido com 
-      <Heart className="h-4 w-4 mx-1.5 inline-block align-middle hover:fill-red-600 cursor-pointer transition-color duration-300" /> 
-      por MR Campos
-    </span>
-  </p>
-</div>
+        <div>
+          <h2>{t.footerLinks}</h2>
+          <ul className="footer-link-grid">{links.map(({ path, label }) => <li key={path}><Link to={path}>{label}</Link></li>)}</ul>
+        </div>
+        <div>
+          <h2>{t.footerInfo}</h2>
+          <p>{t.archdiocese}</p>
+          <p>{t.postal}: P.O. Box 8–00900 Kiambu, Kenya</p>
+          <a className="source-link" href={directoryUrl} target="_blank" rel="noopener noreferrer">{t.directorySource}<ArrowUpRight size={16} aria-hidden="true" /></a>
+        </div>
       </div>
+      <div className="container footer-bottom"><p>© {new Date().getFullYear()} {t.copyright}</p><p>{t.footerDisclaimer}</p></div>
     </footer>
   );
-};
+}
 
 export default Footer;

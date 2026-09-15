@@ -1,64 +1,76 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ScrollToTop } from "./components/ScrollToTop.tsx";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import Home from "./pages/Home";
-import Events from "./pages/Events";
-import Schedule from "./pages/Schedule";
-import News from "./pages/News";
-import Tithe from "./pages/Tithe.tsx";
-import ChurchSR from "./pages/ChurchSR";
-import SantaRita from "./pages/SantaRita";
-import Success from "./pages/Success.tsx";
-import "./index.css";
-import EventDetail from "./pages/EventDetail.tsx";
-import NewsDetail from "./pages/NewsDetail.tsx";
-import Admin from "./pages/Admin";
-import Login from "./pages/Login";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { AuthProvider } from "./contexts/AuthContext";
+import { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { copy } from './data/parishContent';
+import { ScrollToTop } from './components/ScrollToTop';
+import ProtectedRoute from './components/ProtectedRoute';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import './index.css';
+
+const Admin = lazy(() => import('./pages/Admin'));
+const Login = lazy(() => import('./pages/Login'));
+const ParishEvents = lazy(() => import('./pages/ParishEvents'));
+const ParishNotices = lazy(() => import('./pages/ParishNotices'));
+const ParishJumuia = lazy(() => import('./pages/ParishJumuia'));
+const ParishLeadership = lazy(() => import('./pages/ParishLeadership'));
+const ParishGiving = lazy(() => import('./pages/ParishGiving'));
+const ParishVisit = lazy(() => import('./pages/ParishVisit'));
+const ParishReadings = lazy(() => import('./pages/ParishReadings'));
+
+function PageFallback() {
+  const { language } = useLanguage();
+  return <main id="main" tabIndex={-1} className="page-main"><div className="container">{language === 'sw' ? 'Inapakia…' : 'Loading…'}</div></main>;
+}
+
+function PublicLayout() {
+  const { pathname } = useLocation();
+  const { language } = useLanguage();
+  const t = copy[language];
+  useEffect(() => {
+    const names: Record<string, string> = {
+      '/': t.nav[0], '/events': t.nav[1], '/notices': t.nav[2],
+      '/jumuia': t.nav[3], '/leadership': t.nav[4], '/giving': t.nav[5],
+      '/visit': t.locationLabel, '/readings': t.readingsNav,
+    };
+    document.title = (names[pathname] ?? t.nav[0]) + ' | ' + t.parish + ' ' + t.parishSuffix;
+  }, [pathname, t]);
+  return <div className="site-shell"><Navbar /><Outlet /><Footer /></div>;
+}
 
 function App() {
   return (
     <AuthProvider>
-      <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
-        <ScrollToTop />
-        <div className="min-h-screen flex flex-col bg-stone-50">
+      <LanguageProvider>
+        <BrowserRouter>
+          <ScrollToTop />
           <Routes>
-            {/* Login route (no navbar/footer) */}
-            <Route path="/login" element={<Login />} />
-            
-            {/* Admin route (protected, no navbar/footer) */}
-            <Route path="/admin" element={
-              <ProtectedRoute>
-                <Admin />
-              </ProtectedRoute>
-            } />
-            
-            {/* Public routes with navbar/footer */}
-            <Route path="/*" element={
-              <>
-                <Navbar />
-                <main className="flex-grow">
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/events" element={<Events />} />
-                    <Route path="/eventos/:id" element={<EventDetail />} />
-                    <Route path="/schedule" element={<Schedule />} />
-                    <Route path="/news" element={<News />} />
-                    <Route path="/news/:id" element={<NewsDetail />} />
-                    <Route path="/churchsr" element={<ChurchSR />} />
-                    <Route path="/santa-rita" element={<SantaRita />} />
-                    <Route path="/tithe" element={<Tithe />} />
-                    <Route path="/success" element={<Success />} />
-                  </Routes>
-                </main>
-                <Footer />
-              </>
-            } />
+            <Route path="/login" element={<Suspense fallback={null}><Login /></Suspense>} />
+            <Route path="/admin" element={<ProtectedRoute><Suspense fallback={null}><Admin /></Suspense></ProtectedRoute>} />
+            <Route element={<PublicLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/events" element={<Suspense fallback={<PageFallback />}><ParishEvents /></Suspense>} />
+              <Route path="/readings" element={<Suspense fallback={<PageFallback />}><ParishReadings /></Suspense>} />
+              <Route path="/notices" element={<Suspense fallback={<PageFallback />}><ParishNotices /></Suspense>} />
+              <Route path="/jumuia" element={<Suspense fallback={<PageFallback />}><ParishJumuia /></Suspense>} />
+              <Route path="/leadership" element={<Suspense fallback={<PageFallback />}><ParishLeadership /></Suspense>} />
+              <Route path="/giving" element={<Suspense fallback={<PageFallback />}><ParishGiving /></Suspense>} />
+              <Route path="/visit" element={<Suspense fallback={<PageFallback />}><ParishVisit /></Suspense>} />
+            </Route>
+            <Route path="/schedule" element={<Navigate to="/events" replace />} />
+            <Route path="/news" element={<Navigate to="/notices" replace />} />
+            <Route path="/news/:id" element={<Navigate to="/notices" replace />} />
+            <Route path="/eventos/:id" element={<Navigate to="/events" replace />} />
+            <Route path="/churchsr" element={<Navigate to="/visit" replace />} />
+            <Route path="/santa-rita" element={<Navigate to="/visit" replace />} />
+            <Route path="/tithe" element={<Navigate to="/giving" replace />} />
+            <Route path="/success" element={<Navigate to="/giving" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </div>
-      </Router>
+        </BrowserRouter>
+      </LanguageProvider>
     </AuthProvider>
   );
 }
