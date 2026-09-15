@@ -62,9 +62,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setError(response.message || 'Erro no login');
         return false;
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Erro no login:', error);
-      setError(error.message || 'Erro ao fazer login');
+      setError(error instanceof Error ? error.message : 'Erro ao fazer login');
       return false;
     } finally {
       setLoading(false);

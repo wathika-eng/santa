@@ -92,9 +92,9 @@ class AuthService {
     return localStorage.getItem('authToken');
   }
 
-  getUser(): any | null {
+  getUser(): AuthResponse['data']['user'] | null {
     const userStr = localStorage.getItem('user');
-    return userStr ? JSON.parse(userStr) : null;
+    return userStr ? JSON.parse(userStr) as AuthResponse['data']['user'] : null;
   }
 
   isAuthenticated(): boolean {

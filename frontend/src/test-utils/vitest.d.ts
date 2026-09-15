@@ -1,5 +1,3 @@
-/// <reference types="vitest/globals" />
-
 // Declarações globais para Vitest
 import 'vitest/globals'
 

@@ -11,7 +11,7 @@ describe('imageUtils', () => {
       expect(getSafeImageUrl('')).toBe('');
       expect(getSafeImageUrl(null)).toBe('');
       expect(getSafeImageUrl(undefined)).toBe('');
-      expect(getSafeImageUrl(123 as any)).toBe('');
+      expect(getSafeImageUrl(123 as unknown as string)).toBe('');
     });
 
     it('should allow safe relative paths', () => {

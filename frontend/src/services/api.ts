@@ -129,14 +129,14 @@ class ApiService {
     return this.request<ApiEvent>(`/api/events/${id}`);
   }
 
-  async createEvent(eventData: any): Promise<{ success: boolean; message: string; data: ApiEvent }> {
+  async createEvent(eventData: unknown): Promise<{ success: boolean; message: string; data: ApiEvent }> {
     return this.request(`/api/events`, {
       method: 'POST',
       body: JSON.stringify(eventData),
     });
   }
 
-  async updateEvent(id: string, eventData: any): Promise<{ success: boolean; message: string; data: ApiEvent }> {
+  async updateEvent(id: string, eventData: unknown): Promise<{ success: boolean; message: string; data: ApiEvent }> {
     return this.request(`/api/events/${id}`, {
       method: 'PUT',
       body: JSON.stringify(eventData),
@@ -175,14 +175,14 @@ class ApiService {
     return this.request<ApiNews>(`/api/news/${id}`);
   }
 
-  async createNews(newsData: any): Promise<{ success: boolean; message: string; data: ApiNews }> {
+  async createNews(newsData: unknown): Promise<{ success: boolean; message: string; data: ApiNews }> {
     return this.request(`/api/news`, {
       method: 'POST',
       body: JSON.stringify(newsData),
     });
   }
 
-  async updateNews(id: string, newsData: any): Promise<{ success: boolean; message: string; data: ApiNews }> {
+  async updateNews(id: string, newsData: unknown): Promise<{ success: boolean; message: string; data: ApiNews }> {
     return this.request(`/api/news/${id}`, {
       method: 'PUT',
       body: JSON.stringify(newsData),

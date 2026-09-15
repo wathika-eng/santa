@@ -19,7 +19,7 @@ vi.mock('../../services/authService', () => ({
 }));
 
 // Mock do fetch
-global.fetch = vi.fn();
+globalThis.fetch = vi.fn();
 
 describe('ImageUpload', () => {
   const mockOnImageChange = vi.fn();
