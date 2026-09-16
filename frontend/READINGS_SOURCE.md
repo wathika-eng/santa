@@ -5,3 +5,5 @@ The `/readings` page and home-page summary load today's Mass readings from [Univ
 The Universalis feed is in English. The Kiswahili interface labels the sourced text as English; it does not claim to supply an approved Kiswahili lectionary. The [KCCB-approved Kiswahili lectionary](https://www.paoline.org/site/swahili-lectionary/?lang=en) requires a publishing licence before its text can be added. Ask the KCCB Liturgy Commission or Daughters of St Paul for digital rights and a maintained feed.
 
 Some diocesan or parish celebrations can differ from the Kenya-wide calendar. The parish office should review local observances before presenting the feed as the definitive liturgy for a particular Mass.
+
+The `/events` page shows a searchable two-week Catholic calendar. Its Worker endpoint extracts only the dated celebration title from the same documented feed, caches each dated request at the Cloudflare edge, and tolerates partial upstream failures.
