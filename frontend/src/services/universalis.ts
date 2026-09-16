@@ -16,6 +16,8 @@ export type DailyMass = {
   copyright: string;
 };
 
+export type LiturgicalDay = Pick<DailyMass, 'calendarDate' | 'date' | 'day'>;
+
 type FeedReading = { heading?: unknown; source?: unknown; text?: unknown };
 type FeedPayload = {
   number?: unknown;
@@ -44,6 +46,28 @@ function textFromHtml(value: unknown): string {
     .trim();
 }
 
+export async function loadLiturgicalCalendar(startDate: string, signal?: AbortSignal): Promise<LiturgicalDay[]> {
+  try {
+    const response = await fetch(`/api/liturgical-calendar?start=${startDate}`, { signal });
+    if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error('Calendar API unavailable');
+    const payload = await response.json() as { days?: Array<{ calendarDate?: unknown; date?: unknown; dayHtml?: unknown }> };
+    const days = (payload.days ?? []).flatMap((day) => {
+      if (typeof day.calendarDate !== 'string' || typeof day.date !== 'string' || typeof day.dayHtml !== 'string') return [];
+      return [{ calendarDate: day.calendarDate, date: day.date, day: textFromHtml(day.dayHtml) }];
+    });
+    if (!days.length) throw new Error('Calendar API returned no days');
+    return days;
+  } catch (error) {
+    if (signal?.aborted) throw error;
+    const settled = await Promise.allSettled(liturgicalCalendarDates(startDate).map((date) => loadDailyMass(date, signal)));
+    const days = settled.flatMap((result) => result.status === 'fulfilled'
+      ? [{ calendarDate: result.value.calendarDate, date: result.value.date, day: result.value.day }]
+      : []);
+    if (!days.length) throw error;
+    return days;
+  }
+}
+
 export function kenyaDate(now = new Date()): string {
   const parts = new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Africa/Nairobi', year: 'numeric', month: '2-digit', day: '2-digit',
@@ -64,8 +88,8 @@ export function addCalendarDays(date: string, days: number): string {
   return [shifted.getUTCFullYear(), String(shifted.getUTCMonth() + 1).padStart(2, '0'), String(shifted.getUTCDate()).padStart(2, '0')].join('');
 }
 
-export function liturgicalWeekDates(startDate: string): string[] {
-  return Array.from({ length: 7 }, (_, index) => addCalendarDays(startDate, index));
+export function liturgicalCalendarDates(startDate: string, count = 14): string[] {
+  return Array.from({ length: count }, (_, index) => addCalendarDays(startDate, index));
 }
 
 export function massPageUrl(date: string): string {

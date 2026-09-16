@@ -110,24 +110,40 @@ h1, h2, h3 { text-wrap: balance; }
 .daily-readings-full { max-width: 780px; }
 .daily-readings-full section p { font-size: 1.04rem; }
 .event-list, .directory-list, .leader-list, .record-list, .giving-list { list-style: none; padding: 0; margin: 0; }
-.liturgical-calendar { margin-bottom: 50px; padding: 25px 0 34px; border-block: 1px solid var(--color-kumo-line); }
-.calendar-heading { display: flex; align-items: end; justify-content: space-between; gap: 30px; }
-.calendar-heading h2, .parish-events-section > h2 { margin-bottom: 7px; font: 600 1.75rem/1.2 'Alegreya',Georgia,serif; }
-.calendar-heading p { max-width: 600px; margin: 0; color: var(--color-kumo-subtle); line-height: 1.55; }
-.calendar-date-control { display: grid; gap: 6px; min-width: 190px; color: var(--color-kumo-subtle); font-size: .82rem; font-weight: 650; }
-.calendar-date-control input { min-height: 44px; padding: 8px 10px; border: 1px solid #9faaa3; border-radius: 5px; background: white; color: var(--color-kumo-strong); font: inherit; font-size: 1rem; }
-.calendar-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 17px; }
-.calendar-controls button { min-height: 44px; padding: 8px 14px; border: 1px solid #a8afa9; border-radius: 5px; background: white; color: #542b35; font: inherit; font-weight: 650; cursor: pointer; }
-.calendar-controls button:hover { background: #f1ece4; }
-.calendar-status { min-height: 90px; padding: 24px 0; color: var(--color-kumo-subtle); }
-.liturgical-days { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); padding: 0; margin: 0 0 18px; border: 1px solid var(--color-kumo-line); list-style: none; }
-.liturgical-days li { min-width: 0; padding: 14px 12px 15px; border-right: 1px solid var(--color-kumo-line); }
-.liturgical-days li:last-child { border-right: 0; }
-.liturgical-days li.is-today { background: #f3e9d8; box-shadow: inset 0 3px #762f3e; }
-.liturgical-days time { display: block; margin-bottom: 9px; color: #702d3b; font-size: .8rem; font-weight: 700; text-transform: uppercase; }
-.liturgical-days h3 { margin-bottom: 13px; font: 600 1.02rem/1.28 'Alegreya',Georgia,serif; }
-.liturgical-days a, .calendar-source { display: inline-flex; align-items: center; gap: 4px; color: #702d3b; font-size: .82rem; font-weight: 650; text-underline-offset: 3px; }
-.calendar-copyright { max-width: 760px; margin: 15px 0 0; color: var(--color-kumo-subtle); font-size: .72rem; line-height: 1.45; }
+.liturgical-calendar { margin-bottom: 50px; padding: 0 0 32px; border-bottom: 1px solid var(--color-kumo-line); }
+.calendar-toolbar { display: flex; align-items: end; justify-content: space-between; gap: 30px; padding: 24px 0; border-block: 1px solid var(--color-kumo-line); }
+.calendar-toolbar h2, .parish-events-section > h2 { margin-bottom: 7px; font: 600 1.75rem/1.2 'Alegreya',Georgia,serif; }
+.calendar-toolbar > div > p:last-child { max-width: 610px; margin: 0; color: var(--color-kumo-subtle); line-height: 1.55; }
+.calendar-kicker { margin-bottom: 5px; color: #702d3b; font-size: .8rem; font-weight: 750; letter-spacing: .05em; text-transform: uppercase; }
+.calendar-today { min-block-size: 46px; padding-inline: 20px; border: 0; border-radius: 5px; background: #6f2b3a; color: white; font: inherit; font-weight: 700; cursor: pointer; }
+.calendar-workspace { display: grid; grid-template-columns: minmax(230px,.72fr) minmax(0,1.8fr); gap: 36px; padding-top: 28px; }
+.calendar-filters { display: grid; align-self: start; align-content: start; gap: 22px; padding: 20px; border: 1px solid #d7d0c4; background: #f6f1e8; }
+.calendar-paging { display: grid; gap: 8px; }
+.calendar-paging button { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-block-size: 46px; padding-inline: 12px; border: 1px solid #aaa297; border-radius: 4px; background: white; color: #542b35; font: inherit; font-weight: 650; cursor: pointer; text-align: start; }
+.calendar-paging button:hover:not(:disabled), .calendar-today:hover { background: #4f202b; color: white; }
+.calendar-paging button:disabled { color: #818781; background: #ece9e3; cursor: not-allowed; }
+.calendar-date-control, .calendar-search { display: grid; gap: 7px; color: #4e554f; font-size: .83rem; font-weight: 700; }
+.calendar-date-control input, .calendar-search-field { min-block-size: 46px; border: 1px solid #979f99; border-radius: 4px; background: white; color: var(--color-kumo-strong); }
+.calendar-date-control input { padding: 8px 10px; font: inherit; font-size: 1rem; }
+.calendar-search-field { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 7px; padding-inline: 11px 5px; }
+.calendar-search-field input { min-width: 0; min-block-size: 44px; border: 0; outline: 0; background: transparent; color: inherit; font: inherit; font-size: 1rem; }
+.calendar-search-field:focus-within { outline: 3px solid var(--color-kumo-focus, #3b82f6); outline-offset: 2px; }
+.calendar-search-field button { display: grid; min-inline-size: 38px; min-block-size: 38px; place-items: center; border: 0; border-radius: 4px; background: transparent; color: #6f2b3a; cursor: pointer; }
+.calendar-source { display: inline-flex; align-items: center; gap: 5px; color: #702d3b; font-size: .87rem; font-weight: 650; text-underline-offset: 3px; }
+.calendar-result-count { margin-bottom: 10px; color: var(--color-kumo-subtle); font-size: .83rem; font-weight: 700; text-align: end; text-transform: uppercase; }
+.calendar-status, .calendar-no-results { min-height: 100px; padding: 28px 0; color: var(--color-kumo-subtle); }
+.liturgical-days { padding: 0; margin: 0; border-top: 1px solid var(--color-kumo-line); list-style: none; }
+.liturgical-days li { display: grid; grid-template-columns: 72px minmax(0,1fr) auto; align-items: center; gap: 20px; min-width: 0; min-height: 104px; padding: 14px 16px; border-bottom: 1px solid var(--color-kumo-line); }
+.liturgical-days li:is(.is-today,.is-sunday) { background: #f7f2e9; }
+.liturgical-days li.is-today { border-inline-start: 4px solid #762f3e; padding-inline-start: 12px; }
+.liturgical-days time { display: grid; color: #702d3b; line-height: 1; }
+.liturgical-days time strong { font: 600 2rem 'Alegreya',Georgia,serif; }
+.liturgical-days time span { margin-top: 7px; font-size: .78rem; font-weight: 700; text-transform: uppercase; }
+.calendar-tags { display: flex; gap: 6px; min-height: 20px; margin-bottom: 4px; }
+.calendar-tags span { padding: 3px 7px; border-radius: 999px; background: #e7dbc6; color: #5f2935; font-size: .69rem; font-weight: 750; text-transform: uppercase; }
+.liturgical-days h3 { margin: 0; font: 600 1.18rem/1.3 'Alegreya',Georgia,serif; }
+.liturgical-days li > a { display: inline-flex; align-items: center; gap: 5px; min-block-size: 44px; color: #702d3b; font-size: .84rem; font-weight: 650; text-underline-offset: 3px; }
+.calendar-copyright { max-width: 760px; margin: 22px 0 0; color: var(--color-kumo-subtle); font-size: .72rem; line-height: 1.45; }
 .parish-events-section > h2 { margin-bottom: 18px; }
 .event-list, .directory-list, .leader-list { border-top: 1px solid var(--color-kumo-line, #d8ddda); }
 .event-entry, .directory-list li, .leader-list li { padding: 22px 0; border-bottom: 1px solid var(--color-kumo-line, #d8ddda); }
@@ -182,8 +198,9 @@ h1, h2, h3 { text-wrap: balance; }
   .nav-links ul { display: grid; }
   .nav-links a { width: 100%; }
   .menu-button { display: inline-flex !important; }
-  .liturgical-days { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .liturgical-days li { border-bottom: 1px solid var(--color-kumo-line); }
+  .calendar-workspace { grid-template-columns: 1fr; gap: 24px; }
+  .calendar-filters { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .calendar-paging, .calendar-source { grid-column: 1 / -1; }
 }
 @media (max-width: 650px) {
   .container { width: min(100% - 2rem, 1120px); }
@@ -195,10 +212,15 @@ h1, h2, h3 { text-wrap: balance; }
   .brand-text strong { font-size: 1.06rem; }
   .brand-text small { font-size: .74rem; }
   .giving-layout, .visit-layout, .notice-section, .reading-feature-grid { grid-template-columns: 1fr; gap: 23px; }
-  .calendar-heading { display: grid; gap: 18px; }
+  .calendar-toolbar { display: grid; gap: 18px; }
+  .calendar-today { width: 100%; }
+  .calendar-filters { grid-template-columns: 1fr; padding: 16px; }
+  .calendar-date-control, .calendar-search { grid-column: 1; }
   .calendar-date-control { width: 100%; }
-  .liturgical-days { grid-template-columns: 1fr; }
-  .liturgical-days li { border-right: 0; }
+  .liturgical-days li { grid-template-columns: 58px minmax(0,1fr); gap: 13px; min-height: 118px; padding-inline: 10px; }
+  .liturgical-days li.is-today { padding-inline-start: 6px; }
+  .liturgical-days li > a { grid-column: 2; justify-self: start; margin-top: -8px; }
+  .liturgical-days time strong { font-size: 1.75rem; }
   .parish-intro { height: 290px; }
   .parish-intro > img { object-position: 53% center; }
   .parish-intro-caption { padding: 80px 0 20px; }
@@ -220,6 +242,9 @@ h1, h2, h3 { text-wrap: balance; }
   .page-heading h1 { font-size: 2.3rem; }
   .footer-grid { grid-template-columns: 1fr; gap: 22px; }
   .footer-bottom { flex-direction: column; gap: 8px; }
+}
+@media (pointer: coarse) {
+  .calendar-paging button, .calendar-today, .calendar-date-control input { min-block-size: 48px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

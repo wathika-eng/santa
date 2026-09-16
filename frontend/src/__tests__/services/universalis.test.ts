@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { addCalendarDays, isoDate, kenyaDate, liturgicalWeekDates, parseDailyMass } from '../../services/universalis';
+import { addCalendarDays, isoDate, kenyaDate, liturgicalCalendarDates, parseDailyMass } from '../../services/universalis';
 
 const sample = {
   number: 20260914,
@@ -16,12 +16,13 @@ describe('Universalis Kenya Mass feed', () => {
     expect(kenyaDate(new Date('2026-09-13T22:30:00Z'))).toBe('20260914');
   });
 
-  it('builds a seven-day calendar across month and year boundaries', () => {
+  it('builds a two-week calendar across month and year boundaries', () => {
     expect(addCalendarDays('20261229', 4)).toBe('20270102');
     expect(isoDate('20270102')).toBe('2027-01-02');
-    expect(liturgicalWeekDates('20261229')).toEqual([
-      '20261229', '20261230', '20261231', '20270101', '20270102', '20270103', '20270104',
-    ]);
+    const dates = liturgicalCalendarDates('20261229');
+    expect(dates).toHaveLength(14);
+    expect(dates[0]).toBe('20261229');
+    expect(dates[dates.length - 1]).toBe('20270111');
   });
 
   it('decodes feed HTML into plain text and retains the full source notice', () => {
